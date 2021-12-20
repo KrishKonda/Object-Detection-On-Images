@@ -1,5 +1,6 @@
 img="";
-var status="";
+var status_obj="";
+objects=[];
 function preload(){
     img=loadImage("table.jpg");
 }
@@ -11,19 +12,25 @@ function setup(){
 }
 function draw(){
     image(img,0,0,640,420);
-    fill("#ff0000");
-    text("laptop",210,120);
-    textSize(20);
-    noFill();
-    stroke("#ff0000");
-    rect(200,100,350,200);
+    if(status_obj!=""){
+        for(i=0;i<objects.length;i++){
+            document.getElementById("status").innerHTML="status: objects detected";
+            fill("#ff0000");
+            percent=floor(objects[i].confidence*100);
+            text(objects[i].label+" "+percent+"%",objects[i].x+15,objects[i].y+15);
+            textSize(18);
+            noFill();
+            stroke("#ff0000");
+            rect(objects[i].x,objects[i].y,objects[i].width,objects[i].height);
+        }
+    }
 }
 function back(){
     window.location="index.html";
 }
 function modelLoaded(){
     console.log("modelLoaded");
-    status=true;
+    status_obj=true;
     objectDetector.detect(img,gotResult);
 }
 function gotResult(error,results){
@@ -32,5 +39,6 @@ function gotResult(error,results){
     }
     else{
         console.log(results);
+        objects=results;
     }
 }

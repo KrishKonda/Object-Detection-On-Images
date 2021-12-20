@@ -4,3 +4,6 @@ function table(){
 function fruits(){
     window.location="fruits.html";
 }
+function bedroom(){
+    window.location="Bedroom.html";
+}
